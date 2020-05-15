@@ -1,0 +1,129 @@
+swagger: "2.0"
+info:
+  description: "Descrizione delle api per la realizzazione di una applicazione per la gestione di una TO-DO list. Prima esercitazione corso sviluppo backend"
+  version: "1.0.0"
+  title: "TO-DO APIs"
+host: "localhost:3000"
+basePath: "/api"
+tags:
+- name: "todo"
+schemes:
+- "http"
+paths:
+  /todos:
+    post:
+      tags:
+      - "todo"
+      summary: "crea un nuovo task"
+      description: ""
+      operationId: "addTask"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: body
+        name: user
+        description: The user to create.
+        schema:
+          type: object
+          required:
+            - title
+          properties:
+            title:
+              type: string
+            dueDate:
+              type: string
+              format: date
+      responses:
+        "201":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Todo"
+    get:
+      tags:
+      - "todo"
+      summary: "Ritorna una lista di todo"
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - name: "showCompleted"
+        in: "query"
+        description: "Ritorna anche gli alementi completati"
+        type: "boolean"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Todo"
+  /todos/{id}/check:
+    patch:
+      tags:
+      - "todo"
+      summary: "segna un task come completato"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: path
+        name: id
+        type: string
+        required: true
+        description: id del task da modificare
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Todo"
+        "404":
+          description: "Id not found"
+  /todos/{id}/uncheck:
+    patch:
+      tags:
+      - "todo"
+      summary: "segna un task come non completato"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: path
+        name: id
+        type: string
+        required: true
+        description: id del task da modificare
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Todo"
+        "404":
+          description: "Id not found"
+definitions:
+  Todo:
+    type: "object"
+    required:
+    - "title"
+    properties:
+      id:
+        type: "string"
+        description: "id univoco generato lato server"
+      title:
+        type: "string"
+      dueDate:
+        type: string
+        format: date
+        description: "data entro la quale completare il task"
+      completed:
+        type: "boolean"
+      expired:
+        type: "boolean"
+        description: "true se il todo ha una dueDate, la data è passata e il task non è completato"
