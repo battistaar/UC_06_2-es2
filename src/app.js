@@ -12,6 +12,6 @@ app.set('view engine', 'ejs');
 app.use('/api', morgan('tiny'));
 app.use('/api', routes);
 
-// erro handling
+// error handling
 
 module.exports = app;
