@@ -1,4 +1,4 @@
-A partire dal codice della repo (che è la versione corretta dell’esercitazione 1):
+A partire dal codice della repo (che è la versione corretta dell’esercitazione 1:
 
 - Implementare l’autenticazione
     - `POST /signup` con i dati dell’utente e cifratura della password
