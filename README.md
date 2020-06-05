@@ -1,21 +1,15 @@
-Realizzare un server che fornisca le API necessarie alla gestione di una lista di TODO.
-Con riferimento al codice di partenza alla repo https://github.com/battistaar/UC_06_2-es1 e alla definizione delle api nel file api_definition.yaml:
-- Implementare la definizione nel file todo.schema.js
-- Implementare i metodi necessari nel file todo.model.js
-- Implementare i metodi necessari nel file todo.controller.js
-- Completare i file todo.router.js e router.js
-- Creare e implementare i middleware per la gestione degli errori nella cartella Errors
-- Configurare l’app sul file app.js con
-    - Connessione a Mongo
-    - Body parser
-    - Error handling
+A partire dal codice della repo (che è la versione corretta dell’esercitazione 1):
 
-Testare le api sviluppate con postman o con swagger (https://editor.swagger.io), caricare su classroom un file zip con l’intero progetto, escludendo la cartella `node_modules`.
-
-Parametro `showCompleted`:
-I queryparams sono interpretati come string, il controllo da fare è `=== ‘true’` oppure `=== ‘false’`
-
-Campo expired:
-L’implementazione del campo `expired` è opzionale, ci sono due modi di implementarlo:
-- Usando un virtual nello schema e impostando le opportune opzioni nello schema per tornare anche i virtual https://mongoosejs.com/docs/guide.html#toObject
-- Aggiungendo manualmente una proprietà ai dati tornati dalle query: non è possibile aggiungere proprietà agli oggetti tornati da mongoose, per farlo è necessario prima convertirli usando il metodo `.toObject()` (vedi commento nel file todo.model.js)
+- Implementare l’autenticazione
+    - `POST /signup` con i dati dell’utente e cifratura della password
+    - `POST /login` per ottenere il codice JWT
+    - Autenticazione delle api tramite token JWT
+- Sviluppare una api `GET /api/users` che torni la lista degli utenti registrati, omettendo dai dai le informazioni sensibili come la password
+- Modificare l’api `POST /api/todos` in modo che accetti nei dati anche la proprietà `assignedTo: idUtente` (opzionale). La proprietà indica che il todo è stato assegnato a un utente specifico tra quelli registrati.
+    - La proprietà nello schema deve essere impostata come `ref` alla collezione degli Users, in modo da poter fare in seguito il popolate e tornare nome utente e _id quando vengono letti i todo
+    - Ad ogni todo deve essere assegnata anche, in automatico dal server, la proprietà `createdBy: userId`, valorizzata con l’id dell’utente che ha creato il todo. Anche questa proprietà deve essere un riferimento alla collezione degli Users
+- Sviluppare una api `POST /api/todos/:id/assign` che permette di assegnare un todo a un utente registrato.
+- Implementare una logica di validazione del campo `assignedTo` (in entrambe le api che lo impostano) che controlli che l’id passato sia presente nella collezione degli Users. In caso contrario torna una risposta con stato `400` e un messaggio che rappresenta l’errore.
+- Modificare le api `check` e `uncheck` precedentemente sviluppate in modo che solo l’utente che ha creato il todo o quello a cui è assegnato possano impostare lo stato. In caso contrario torna stato `403` e un messaggio rappresentativo.
+- Modificare l’api `GET /api/todos` in modo che torni esclusivamente i todo creati dall’utente loggato o assegnati a lui.
+    - I dati tornati devono includere anche i dettagli dell’utente salvato nel `createdBy` e di quello in `assignedTo` (se presente). Vedere metodo `populate` di mongoose per tornare le informazioni. Le info dell’utente non devono contenere dati sensibili come la password.

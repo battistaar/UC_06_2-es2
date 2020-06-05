@@ -4,15 +4,18 @@ const morgan = require('morgan');
 const app = express();
 const routes = require('./api/router');
 const cors = require('cors');
-//connessione a mongo
+const bodyParser = require('body-parser');
+const errorHandlers = require('./errors');
+
+
 
 app.use(cors());
-// body parser
+app.use(bodyParser.json());
 
 app.set('view engine', 'ejs');
 app.use('/api', morgan('tiny'));
 app.use('/api', routes);
 
-// error handling
+app.use(errorHandlers);
 
 module.exports = app;

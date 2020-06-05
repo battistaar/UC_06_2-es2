@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "test": "mocha --timeout 30000 ./test/**/*.js --exit" 
   },
   "author": "",
   "license": "ISC",
@@ -17,6 +18,9 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.3"
+    "chai": "^4.2.0",
+    "mocha": "^7.2.0",
+    "nodemon": "^2.0.3",
+    "supertest": "^4.0.2"
   }
 }
