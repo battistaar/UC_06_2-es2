@@ -4,7 +4,7 @@ A partire dal codice della repo (che è la versione corretta dell’esercitazion
     - `POST /signup` con i dati dell’utente e cifratura della password
     - `POST /login` per ottenere il codice JWT
     - Autenticazione delle api tramite token JWT
-- Sviluppare una api `GET /api/users` che torni la lista degli utenti registrati, omettendo dai dai le informazioni sensibili come la password
+- Sviluppare una api `GET /api/users` che torni la lista degli utenti registrati, omettendo dai risultati le informazioni sensibili come la password
 - Modificare l’api `POST /api/todos` in modo che accetti nei dati anche la proprietà `assignedTo: idUtente` (opzionale). La proprietà indica che il todo è stato assegnato a un utente specifico tra quelli registrati.
     - La proprietà nello schema deve essere impostata come `ref` alla collezione degli Users, in modo da poter fare in seguito il popolate e tornare nome utente e _id quando vengono letti i todo
     - Ad ogni todo deve essere assegnata anche, in automatico dal server, la proprietà `createdBy: userId`, valorizzata con l’id dell’utente che ha creato il todo. Anche questa proprietà deve essere un riferimento alla collezione degli Users
